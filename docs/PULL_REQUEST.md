@@ -39,5 +39,5 @@ Steam не переносился. Подробности в docs/VALIDATION.md.
 - Документ решений: https://docs.google.com/document/d/1AB_j0IeMWHTLvG-JICvkaaeLpeIncLbOUv_ni8y4FjI/edit
 - Figma (не внедрён): https://www.figma.com/design/wJ5N85PyMUi6ouMrkFyJOc
 
-Этот файл — подготовленное описание PR. Сам PR пока НЕ создан:
-GitHub-интеграция запрещает создание ветки (403), локальный Git без авторизации.
+Этот файл содержит описание изменений для pull request в main.
+Слияние выполняют авторы проекта после проверки.
