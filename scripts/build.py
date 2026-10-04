@@ -9,6 +9,8 @@ parser=argparse.ArgumentParser()
 parser.add_argument("--platform",choices=["browser","yandex"],default="browser")
 args=parser.parse_args()
 files=[root/"index.html",root/"scripts/bootstrap.js"]
+if args.platform=="browser":
+    files.extend(root/name for name in ("launcher.py","run.bat","README.md"))
 for folder in ("css","js","vendor","assets"):
     files.extend(p for p in (root/folder).rglob("*") if p.is_file())
 assert all(p.exists() for p in files)
