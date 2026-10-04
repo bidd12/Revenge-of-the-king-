@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Месть королю — v3</title>
+<link rel="stylesheet" href="css/style-v3.css?v=4">
+</head>
+<body>
+<div id="app">
+  <canvas id="gameCanvas"></canvas>
+  <div id="ui">
+    <header id="hud" class="hidden">
+      <div><b id="heroName">Герой</b><span id="heroClass"></span></div>
+      <div>Уровень: <b id="heroLevel">1</b></div>
+      <div class="stat">HP <div class="bar"><i id="playerHpBar"></i></div><span id="playerHpText">100/100</span></div>
+      <div>Урон: <b id="heroDamage">15</b></div>
+      <div>Монеты: <b id="heroCoins">0</b></div>
+      <div>Артефакты: <b id="heroArtifacts">0/5</b></div>
+      <button id="hudMenu">☰</button>
+    </header>
+    <main id="screens">
+      <section id="menuScreen" class="screen">
+        <div class="torch left"></div><div class="torch right"></div>
+        <div class="title"><small>DARK FANTASY RPG</small><h1>МЕСТЬ<br>КОРОЛЮ</h1><p>Твой путь начинается в шахтах.</p></div>
+        <div class="menuButtons">
+          <button id="newGameBtn" class="gold">Новая игра</button>
+          <button id="continueBtn">Продолжить</button>
+          <button id="collectionBtn">Коллекция</button>
+          <button id="shopBtn">Магазин</button>
+          <button id="settingsBtn">Настройки</button>
+        </div>
+        <p class="hint">ЛКМ — атака · ESC — меню</p>
+      </section>
+
+      <section id="createScreen" class="screen hidden">
+        <div class="panel">
+          <h2>Создание героя</h2>
+          <label>Введите имя героя<input id="nameInput" maxlength="20" placeholder="Например, Виктор"></label>
+          <h3>Выберите класс</h3>
+          <div class="classGrid">
+            <button class="classCard" data-class="paladin"><b>Паладин</b><span>+30 HP · +5 урона</span><small>Выносливый</small></button>
+            <button class="classCard" data-class="knight"><b>Рыцарь</b><span>+15 урона</span><small>Атакующий</small></button>
+            <button class="classCard" data-class="mage"><b>Маг</b><span>-20 HP · +20 урона</span><small>Высокий урон</small></button>
+            <button class="classCard" data-class="thief"><b>Вор</b><span>30% комбо</span><small>Две атаки</small></button>
+          </div>
+          <div class="row"><button id="createBack">Назад</button><button id="createHero" class="gold" disabled>Начать путь</button></div>
+        </div>
+      </section>
+
+      <section id="locationScreen" class="screen hidden">
+        <div class="panel wide">
+          <div class="eyebrow">НОВАЯ ЛОКАЦИЯ</div><h2 id="locTitle"></h2><p id="locStory"></p><p id="locDesc" class="muted"></p>
+          <div id="mapPreview"></div><button id="startLocation" class="gold">Начать</button>
+        </div>
+      </section>
+
+      <section id="mapScreen" class="screen hidden">
+        <div class="panel wide"><h2>Карта</h2><div id="mapList"></div><div class="row"><button id="mapBack">Назад</button><button id="mapPlay" class="gold">Продолжить</button></div></div>
+      </section>
+
+      <section id="battleScreen" class="screen hidden">
+        <div id="battleTop"><div><b id="locationName"></b><span id="levelLabel"></span></div><div id="enemyName">Враг</div></div>
+        <div id="enemyStatus"><div class="enemyHp bar"><i id="enemyHpBar"></i></div><span id="enemyHpText">0/0</span></div>
+        <div id="bossWarning" class="hidden">ОГНЕННАЯ АТАКА!</div>
+        <div id="combatLog"></div>
+        <div id="attackArea"><button id="attackBtn" class="attack">АТАКА <span>ЛКМ</span></button><div id="weaponLabel"></div></div>
+      </section>
+
+      <section id="rewardScreen" class="screen hidden"><div class="panel"><h2>Награда</h2><div id="rewardContent"></div><button id="rewardContinue" class="gold">Продолжить</button></div></section>
+      <section id="levelCompleteScreen" class="screen hidden"><div class="panel"><div class="eyebrow">ПОБЕДА</div><h2>УРОВЕНЬ ПРОЙДЕН</h2><p id="levelCompleteText"></p><button id="nextLevelBtn" class="gold">Следующий уровень</button></div></section>
+      <section id="defeatScreen" class="screen hidden"><div class="panel"><div class="eyebrow danger">ПОРАЖЕНИЕ</div><h2>ВЫ ПОБЕЖДЕНЫ</h2><p>Прогресс сохранён. Попробуйте ещё раз.</p><div class="row"><button id="retryBtn" class="gold">Повторить уровень</button><button id="previousBtn">Предыдущий уровень</button><button id="defeatMenu">В меню</button></div></div></section>
+      <section id="inventoryScreen" class="screen hidden"><div class="panel wide"><h2>Инвентарь</h2><div id="equipmentPanel"></div><div class="tabs"><button data-filter="all">Все</button><button data-filter="weapon">Оружие</button><button data-filter="armor">Броня</button><button data-filter="artifact">Артефакты</button></div><div id="inventoryGrid"></div><button id="inventoryBack">Назад</button></div></section>
+      <section id="shopScreen" class="screen hidden"><div class="panel wide"><h2>Магазин</h2><p>Оружейник и торговец. Ассортимент зависит от локации.</p><div id="shopGrid"></div><button id="shopBack">Назад</button></div></section>
+      <section id="collectionScreen" class="screen hidden"><div class="panel wide"><h2>Книга коллекций</h2><div class="tabs"><button data-cfilter="enemies">Мобы</button><button data-cfilter="bosses">Боссы</button><button data-cfilter="items">Оружие/броня</button><button data-cfilter="chests">Сундуки</button></div><div id="collectionGrid"></div><button id="collectionBack">Назад</button></div></section>
+      <section id="settingsScreen" class="screen hidden"><div class="panel"><h2>Настройки</h2><label class="toggle">Звуки <input type="checkbox" id="soundToggle" checked></label><label class="toggle">Музыка <input type="checkbox" id="musicToggle" checked></label><button id="settingsBack">Назад</button></div></section>
+      <section id="victoryScreen" class="screen hidden"><div class="panel"><div class="eyebrow">ФИНАЛ</div><h2>ДРАКОН ПОВЕРЖЕН</h2><p>Вы помогли защитить замок и спасли его жителей.</p><h1>ИГРА ПРОЙДЕНА</h1><div id="victoryStats"></div><div class="row"><button id="victoryMenu" class="gold">В меню</button><button id="restartBtn">Начать заново</button></div></div></section>
+      <section id="pauseScreen" class="screen hidden"><div class="panel"><h2>Пауза</h2><button id="pauseResume" class="gold">Вернуться</button><button id="pauseMap">Карта</button><button id="pauseInventory">Инвентарь</button><button id="pauseShop">Магазин</button><button id="pauseMenu">В меню</button></div></section>
+    </main>
+    <div id="toast"></div>
+    <div id="debugPanel" class="hidden"></div>
+  </div>
+</div>
+<script>
+// Меню должно работать независимо от скорости загрузки 3D-библиотеки.
+(() => {
+  const showScreen = (id) => {
+    document.querySelectorAll(".screen").forEach(screen => {
+      screen.classList.toggle("hidden", screen.id !== id);
+    });
+  };
+
+  window.showGameScreen = showScreen;
+
+  document.getElementById("newGameBtn").addEventListener("click", () => showScreen("createScreen"));
+  document.getElementById("settingsBtn").addEventListener("click", () => showScreen("settingsScreen"));
+  document.getElementById("createBack").addEventListener("click", () => showScreen("menuScreen"));
+  document.getElementById("settingsBack").addEventListener("click", () => showScreen("menuScreen"));
+  document.getElementById("collectionBack").addEventListener("click", () => showScreen("menuScreen"));
+  document.getElementById("shopBack").addEventListener("click", () => showScreen("menuScreen"));
+
+  // Three.js загружается только ПОСЛЕ полной загрузки интерфейса.
+  // Поэтому проблемы с интернетом/CDN больше не могут "заморозить" кнопки меню.
+  window.threeReadyPromise = new Promise(resolve => {
+    window.addEventListener("load", () => {
+      const three = document.createElement("script");
+      three.src = "https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.min.js";
+      three.async = true;
+      three.crossOrigin = "anonymous";
+      three.onload = () => resolve(true);
+      three.onerror = () => {
+        console.warn("Three.js недоступен — игра продолжает работу без 3D.");
+        resolve(false);
+      };
+      document.head.appendChild(three);
+    }, { once: true });
+  });
+})();
+</script>
+<script type="module" src="js/main.js?v=4"></script>
+</body>
+</html>
