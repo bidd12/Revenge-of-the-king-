@@ -1,0 +1,5 @@
+import {clamp} from "./utils.js";
+export const CLASSES={paladin:{name:"Паладин",hp:30,damage:5,combo:0},knight:{name:"Рыцарь",hp:0,damage:15,combo:0},mage:{name:"Маг",hp:-20,damage:20,combo:0},thief:{name:"Вор",hp:0,damage:0,combo:30}};
+export function newPlayer(name,klass){return {name,class:klass,level:1,location:1,currentLevel:1,hp:100+CLASSES[klass].hp+5,maxHp:100+CLASSES[klass].hp+5,damage:10+CLASSES[klass].damage+5,coins:0,artifacts:0,inventory:[],equipment:{weapon:null,chest:null,gloves:null,boots:null},collection:{enemies:{},bosses:{},items:{},chests:{}},unlockedLocations:[1],defeatedBosses:[],stats:{kills:0,foundItems:0},pity:0}};
+export function recalc(state,inventory){state.maxHp=100+CLASSES[state.class].hp+state.level*5+inventory.armorHP();state.damage=10+CLASSES[state.class].damage+state.level*5+inventory.weaponDamage();state.hp=clamp(state.hp,0,state.maxHp)}
+export function levelUp(state,inventory){if(state.artifacts<5)return false;state.artifacts-=5;state.level++;recalc(state,inventory);state.hp=state.maxHp;return true}

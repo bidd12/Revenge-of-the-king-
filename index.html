@@ -4,10 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Месть королю — v3</title>
-<link rel="stylesheet" href="css/style-v3.css?v=4">
+<link rel="icon" href="data:,">
+<style>
+:root{--king-bg:#080808;--king-panel:#1b1a17;--king-gold:#e8c66d;--king-text:#eeeeee;--king-muted:#aaaaaa}
+[hidden],.hidden{display:none!important}
+#bootScreen{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#211a13,#050505 70%);color:var(--king-text);font-family:Georgia,"Times New Roman",serif;padding:24px;box-sizing:border-box;overflow:auto}
+.bootPanel{width:min(100%,640px)}
+.bootEyebrow{color:var(--king-gold);letter-spacing:.12em;font-weight:700}
+#bootScreen h1{font-size:clamp(28px,5vw,44px);line-height:1.15}
+#bootStatus{font-size:20px}
+#bootProgress{width:100%;height:12px;accent-color:var(--king-gold)}
+#bootDetails{white-space:pre-wrap;overflow-wrap:anywhere;color:var(--king-muted);line-height:1.6}
+#bootRetry{min-height:48px;padding:12px 20px;border:1px solid #b18a38;border-radius:4px;background:linear-gradient(#6e531f,#2a210e);color:#ffe4a0;font:18px Georgia,"Times New Roman",serif;cursor:pointer}
+#bootRetry:focus-visible{outline:3px solid var(--king-text);outline-offset:5px}
+</style>
 </head>
 <body>
-<div id="app">
+<section id="bootScreen" aria-labelledby="bootTitle">
+  <div class="bootPanel">
+    <p class="bootEyebrow">МЕСТЬ КОРОЛЮ</p>
+    <h1 id="bootTitle">Готовим твой путь</h1>
+    <p id="bootStatus" role="status" aria-live="polite">Проверяем файлы игры…</p>
+    <progress id="bootProgress" max="4" value="0" aria-label="Этапы запуска игры"></progress>
+    <p id="bootDetails" role="alert"></p>
+    <button id="bootRetry" type="button" hidden>Повторить загрузку</button>
+  </div>
+</section>
+<noscript>Для игры необходим JavaScript. Включите его в настройках браузера.</noscript>
+<div id="app" hidden inert>
   <canvas id="gameCanvas"></canvas>
   <div id="ui">
     <header id="hud" class="hidden">
@@ -81,42 +105,6 @@
     <div id="debugPanel" class="hidden"></div>
   </div>
 </div>
-<script>
-// Меню должно работать независимо от скорости загрузки 3D-библиотеки.
-(() => {
-  const showScreen = (id) => {
-    document.querySelectorAll(".screen").forEach(screen => {
-      screen.classList.toggle("hidden", screen.id !== id);
-    });
-  };
-
-  window.showGameScreen = showScreen;
-
-  document.getElementById("newGameBtn").addEventListener("click", () => showScreen("createScreen"));
-  document.getElementById("settingsBtn").addEventListener("click", () => showScreen("settingsScreen"));
-  document.getElementById("createBack").addEventListener("click", () => showScreen("menuScreen"));
-  document.getElementById("settingsBack").addEventListener("click", () => showScreen("menuScreen"));
-  document.getElementById("collectionBack").addEventListener("click", () => showScreen("menuScreen"));
-  document.getElementById("shopBack").addEventListener("click", () => showScreen("menuScreen"));
-
-  // Three.js загружается только ПОСЛЕ полной загрузки интерфейса.
-  // Поэтому проблемы с интернетом/CDN больше не могут "заморозить" кнопки меню.
-  window.threeReadyPromise = new Promise(resolve => {
-    window.addEventListener("load", () => {
-      const three = document.createElement("script");
-      three.src = "https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.min.js";
-      three.async = true;
-      three.crossOrigin = "anonymous";
-      three.onload = () => resolve(true);
-      three.onerror = () => {
-        console.warn("Three.js недоступен — игра продолжает работу без 3D.");
-        resolve(false);
-      };
-      document.head.appendChild(three);
-    }, { once: true });
-  });
-})();
-</script>
-<script type="module" src="js/main.js?v=4"></script>
+<script src="scripts/bootstrap.js"></script>
 </body>
 </html>
