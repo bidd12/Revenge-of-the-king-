@@ -1,0 +1,78 @@
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080808;color:#eee;font-family:Georgia,"Times New Roman",serif}button,input{font:inherit}button{border:1px solid #67552f;background:linear-gradient(#26231d,#11100d);color:#eee;padding:12px 20px;border-radius:4px;cursor:pointer;transition:.15s;box-shadow:0 3px 12px #0008}button:hover{border-color:#d1a94a;transform:translateY(-1px)}button:disabled{opacity:.4;cursor:not-allowed;transform:none}.gold{border-color:#b18a38;background:linear-gradient(#6e531f,#2a210e);color:#ffe4a0}.hidden{display:none!important}#app,#gameCanvas{position:absolute;inset:0;width:100%;height:100%}#ui{position:absolute;inset:0;pointer-events:none}#ui button,#ui input,.screen{pointer-events:auto}.screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 40%,#211a13aa,#050505dd 70%);padding:24px}.panel{width:min(760px,94vw);max-height:92vh;overflow:auto;background:linear-gradient(145deg,#1b1a17f5,#0c0c0bf5);border:1px solid #765f32;box-shadow:0 0 50px #000, inset 0 0 50px #0008;padding:32px;text-align:center}.panel.wide{width:min(1100px,96vw)}h1,h2,h3{margin:8px 0 18px;color:#e8c66d;text-shadow:0 2px 4px #000}h1{font-size:clamp(46px,8vw,90px);line-height:.82;letter-spacing:5px}.title{text-align:center;max-width:900px}.title small,.eyebrow{color:#b99245;letter-spacing:4px}.title p{color:#aaa}.menuButtons{display:grid;gap:10px;width:min(330px,85vw);margin:28px auto}.menuButtons button{font-size:19px}.hint{color:#777;font-size:13px}.torch{position:absolute;width:20px;height:90px;background:linear-gradient(#ffdb70,#b22 45%,#28150d 46%);top:18%;box-shadow:0 0 35px 15px #e85b2233;border-radius:50%}.torch.left{left:12%}.torch.right{right:12%}.panel label{display:block;text-align:left;color:#cdbb8a;margin:12px 0}.panel input{display:block;width:100%;margin-top:7px;padding:12px;background:#090909;border:1px solid #4d432e;color:white;border-radius:4px}.classGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:18px 0}.classCard{display:grid;gap:7px;text-align:left;padding:18px}.classCard b{color:#e8c66d;font-size:20px}.classCard span{color:#eee}.classCard small{color:#888}.classCard.selected{outline:2px solid #d2a844;background:#342812}.row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px}.muted{color:#999}.danger{color:#d65b5b}.bar{height:14px;background:#260b0b;border:1px solid #553333;border-radius:10px;overflow:hidden;min-width:130px}.bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#8b1f1f,#df4545);transition:width .25s}.enemyHp i{background:linear-gradient(90deg,#771b1b,#f06a4d)}#hud{position:absolute;top:0;left:0;right:0;display:flex;gap:18px;align-items:center;padding:10px 14px;background:#090909dd;border-bottom:1px solid #604d2c;z-index:20;font-size:14px}.stat{display:flex;align-items:center;gap:6px}.stat .bar{width:150px}.stat .bar i{background:linear-gradient(90deg,#1b7b36,#6fcf67)}#hudMenu{margin-left:auto;padding:7px 13px}#battleTop{position:absolute;top:75px;left:4%;right:4%;display:flex;justify-content:space-between;font-size:18px;text-shadow:0 2px 4px #000}.enemyHp{position:absolute;top:108px;left:50%;transform:translateX(-50%);width:min(480px,65vw)}#enemyHpText{position:absolute;top:127px;left:50%;transform:translateX(-50%);font-size:12px}.combatLog{position:absolute;left:3%;bottom:120px;width:min(390px,45vw);color:#d6c99e;text-shadow:0 1px 3px #000;line-height:1.5}.logLine{animation:fade .2s}.damageFloat{position:absolute;left:50%;top:43%;font-size:34px;color:#ffdb6b;text-shadow:0 3px 6px #000;animation:float .7s forwards;pointer-events:none}.damageFloat.enemy{color:#ff6666}.crit{color:#fff!important;font-size:44px}.status{display:inline-block;padding:3px 7px;border:1px solid #7e4d3b;background:#381b17;border-radius:3px;margin-left:5px;color:#e78a68}.bleed{animation:pulse 1s infinite}.attack{font-size:22px;padding:18px 55px;min-width:230px}.attack span{font-size:11px;color:#aaa}.weaponLabel{text-align:center;color:#c7b77d;margin-top:8px}.bossWarning{position:absolute}.bossWarning{left:50%;top:25%;transform:translate(-50%,-50%);font-size:42px;color:#ff4a30;text-shadow:0 0 20px #f30;animation:warn .8s infinite}.mapItem{display:flex;align-items:center;gap:12px;margin:8px 0;padding:12px;border:1px solid #403825;text-align:left}.mapItem.locked{opacity:.35}.mapItem.current{border-color:#d3a842;background:#241c0c}.mapDot{width:12px;height:12px;border-radius:50%;background:#c8a64d}.mapItem.locked .mapDot{background:#444}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.tabs button{padding:7px 12px;font-size:13px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}.itemCard,.collectionCard,.shopCard{border:1px solid #4d432d;background:#111;padding:12px;text-align:left;min-height:150px}.itemCard h3,.collectionCard h3,.shopCard h3{font-size:16px;margin:4px 0}.icon{height:54px;display:grid;place-items:center;font-size:38px}.rarity-common{border-color:#777}.rarity-uncommon{border-color:#8ba1ad}.rarity-rare{border-color:#4d91d8}.rarity-epic{border-color:#b264dc}.rarity-legendary{border-color:#56c7b3;box-shadow:0 0 12px #56c7b344}.rarity-mythic{border-color:#f04b4b;box-shadow:0 0 18px #e22a2233}.r-common{color:#aaa}.r-uncommon{color:#9eb2bf}.r-rare{color:#6ba9ed}.r-epic{color:#cb76ef}.r-legendary{color:#67d6c2}.r-mythic{color:#ff6464}.itemCard button,.shopCard button{padding:6px 9px;font-size:12px;margin-top:6px}.equip{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:15px}.equipSlot{padding:8px 14px;border:1px solid #403925;color:#aaa}.equipSlot b{color:#d4b86a}.toggle{display:flex!important;justify-content:space-between;align-items:center}.toggle input{width:auto!important}.collectionCard.locked .icon{filter:brightness(0);opacity:.6}.rewardBox{padding:25px;border:1px solid #6c592f;background:#16130d;margin:15px 0}.rewardIcon{font-size:60px}.price{color:#e4bf58}.shopCard{min-height:190px}#shopGrid,#inventoryGrid,#collectionGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}.toast{position:absolute;top:75px;left:50%;transform:translateX(-50%);background:#17130c;border:1px solid #a77f32;padding:10px 16px;opacity:0;transition:.25s;z-index:50}.toast.show{opacity:1}.victoryStats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.shake{animation:shake .25s}.hitflash{animation:flash .18s}.pulseBoss{animation:pulseBoss .5s 2}.destroy{animation:destroy .7s forwards}@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1}}@keyframes float{to{opacity:0;transform:translateY(-70px) scale(1.2)}}@keyframes warn{50%{opacity:.3;transform:translate(-50%,-50%) scale(1.1)}}@keyframes pulse{50%{filter:brightness(1.7)}}@keyframes shake{25%{transform:translateX(7px)}75%{transform:translateX(-7px)}}@keyframes flash{50%{filter:brightness(2)}}@keyframes pulseBoss{50%{filter:brightness(2)}}@keyframes destroy{to{opacity:0;transform:scale(.2) rotate(20deg)}}@media(max-width:800px){#hud{gap:7px;font-size:11px;flex-wrap:wrap}.stat .bar{width:90px}.classGrid{grid-template-columns:1fr}.panel{padding:20px}.combatLog{bottom:105px;width:60vw;font-size:12px}.attack{min-width:190px;padding:15px 35px}}
+
+/* Главное меню: заголовок строго по центру, кнопки вертикально под ним */
+#menuScreen{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:0;padding:24px 20px;}
+#menuScreen .title{width:100%;max-width:900px;margin:0 auto;}
+#menuScreen .title h1{margin-left:auto;margin-right:auto;}
+#menuScreen .title p{margin:14px auto 0;}
+#menuScreen .menuButtons{display:flex;flex-direction:column;align-items:stretch;justify-content:center;width:min(330px,85vw);margin:30px auto 12px;gap:10px;}
+#menuScreen .menuButtons button{width:100%;}
+#menuScreen .hint{margin:4px auto 0;text-align:center;}
+@media(max-height:700px){#menuScreen{padding-top:14px;padding-bottom:14px;}#menuScreen h1{font-size:clamp(40px,7vw,68px);margin-bottom:10px;}#menuScreen .menuButtons{margin:18px auto 8px;gap:7px;}}
+
+/* V3 MENU LAYOUT: title above buttons, all centered */
+#menuScreen{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  text-align:center !important;
+}
+#menuScreen .title{
+  position:static !important;
+  width:min(900px,90vw) !important;
+  margin:0 auto 0 !important;
+  text-align:center !important;
+}
+#menuScreen .title h1,
+#menuScreen .title small,
+#menuScreen .title p{
+  display:block;
+  text-align:center !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+#menuScreen .menuButtons{
+  position:static !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:stretch !important;
+  width:min(330px,85vw) !important;
+  margin:30px auto 12px !important;
+  gap:10px !important;
+}
+#menuScreen .menuButtons button{width:100% !important;}
+#menuScreen .hint{margin:4px auto 0 !important;text-align:center !important;}
+
+/* v4: интерфейс всегда поверх canvas, а canvas никогда не перехватывает клики */
+#menuScreen.hidden{display:none!important}
+#combatLog{position:absolute;left:3%;bottom:145px;width:min(390px,60vw);line-height:1.5;color:#d6c99e;text-shadow:0 1px 3px #000;pointer-events:none}
+#attackArea{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);text-align:center}
+#weaponLabel{margin-top:8px;color:#c7b77d}
+#bossWarning{position:absolute;left:50%;top:25%;transform:translate(-50%,-50%);font-size:clamp(22px,5vw,42px);color:#ff4a30;text-shadow:0 0 20px #f30;pointer-events:none}
+#toast{position:absolute;top:75px;left:50%;transform:translateX(-50%);max-width:90vw;background:#17130c;border:1px solid #a77f32;padding:10px 16px;opacity:0;transition:.25s;z-index:50;pointer-events:none}
+#toast.show{opacity:1}
+#battleScreen{background:linear-gradient(#05050566,transparent 35%,transparent 60%,#05050599);pointer-events:none}
+#attackBtn{pointer-events:auto;touch-action:manipulation}
+#hud button{pointer-events:auto}
+button:focus-visible,input:focus-visible{outline:2px solid #e8c66d;outline-offset:4px}
+@media(max-width:600px){#battleTop{top:110px;font-size:14px}.enemyHp{top:155px}#enemyHpText{top:175px}.screen{padding:14px}.panel{max-height:95dvh}.tabs button{min-height:44px}.classGrid{grid-template-columns:repeat(2,1fr)}.classCard{padding:10px}.classCard b{font-size:17px}.classCard span{font-size:13px}}
+#enemyName{position:absolute;top:103px;left:50%;transform:translateX(-50%);max-width:90vw;padding:3px 12px;font-size:18px;color:#ffe4a0;text-align:center;text-shadow:0 2px 4px #000;background:#15120cc9;border-radius:4px}
+.enemyHp{top:139px}#enemyHpText{top:158px}
+#lootActions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}#lootActions[hidden]{display:none}#lootActions button{min-height:44px}
+@media(max-width:600px){#enemyName{top:145px;font-size:16px}.enemyHp{top:178px}#enemyHpText{top:197px}#lootActions button{flex:1 1 130px}}
+@media(max-height:600px){#menuScreen{overflow:auto;justify-content:flex-start!important}#menuScreen h1{font-size:40px;line-height:1}#menuScreen .menuButtons{margin:12px auto!important;gap:6px!important}#menuScreen .menuButtons button{padding:8px 20px}}
+#gameCanvas{z-index:0;pointer-events:none!important;}
+#ui{z-index:10;}
+#screens{position:absolute;inset:0;z-index:11;}
+#hud{z-index:20;}
+
+/* Item illustrations follow the explicitly requested material tiers. The
+   approved photo/menu redesign remains deferred. */
+.item-art{display:block;width:54px;height:54px;margin:auto}
+.rarity-epic .item-art{filter:drop-shadow(0 0 3px #ad833655)}
+.rarity-epic{border-color:#c49a35}.r-epic{color:#ffdf77}
+.rarity-legendary .item-art{filter:drop-shadow(0 0 4px #56c7b366)}
+.rarity-mythic .item-art{filter:drop-shadow(0 0 5px #e22a2266)}
+.rewardIcon .item-art{width:80px;height:80px}
+@media(prefers-reduced-motion:reduce){.damageFloat,.hitflash,.shake,.bossWarning,.bleed{animation:none}.damageFloat{transition:none}}

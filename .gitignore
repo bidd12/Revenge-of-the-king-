@@ -1,0 +1,5 @@
+_source-copy/
+_archive-source/
+artifacts/
+node_modules/
+__pycache__/

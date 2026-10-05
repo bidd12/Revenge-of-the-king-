@@ -1,0 +1,3 @@
+import {makeItem,RARITIES,WEAPONS,ARMOR} from "./items.js";
+export function availableShop(game){const l=game.state.location;const rar=l===1?["common","uncommon"]:l===2?["common","uncommon","rare"]:l===3?["uncommon","rare","epic"]:l===4?["rare","epic","legendary"]:["epic","legendary","mythic"];const kinds=["sword","spear","bow","chest","gloves","boots"];if(l>=3)kinds.push("axe");return rar.flatMap(r=>kinds.slice(0,l+2).map(k=>makeItem(k,r))).filter((x,i,a)=>i<Math.min(12,a.length))}
+export function buy(game,item){if(game.state.coins<item.price){game.ui.toast("Недостаточно монет");return false}game.state.coins-=item.price;game.inventory.add(item);game.save();return true}

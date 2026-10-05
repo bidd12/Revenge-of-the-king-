@@ -1,0 +1,77 @@
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE||"playwright");
+const assert=require("node:assert/strict");
+const fs=require("node:fs");
+(async()=>{
+ const browser=await chromium.launch({headless:true,executablePath:process.env.BROWSER_PATH,args:["--use-angle=swiftshader","--enable-webgl"]});
+ const page=await browser.newPage({viewport:{width:1280,height:800}});
+ const errors=[],requests=[];
+ page.on("pageerror",e=>errors.push(e.message));
+ page.on("request",r=>requests.push(r.url()));
+ await page.goto("http://127.0.0.1:8000/");
+ await page.waitForFunction(()=>window.game&&document.querySelector("#bootScreen").hidden);
+ assert.equal(await page.locator("#continueBtn").isDisabled(),true);
+ for(const [open,back,screen] of [["settingsBtn","settingsBack","settingsScreen"],["collectionBtn","collectionBack","collectionScreen"],["shopBtn","shopBack","shopScreen"]]){
+  await page.locator("#"+open).click(); assert(await page.locator("#"+screen).isVisible());
+  if(open==="collectionBtn") {await page.locator('[data-cfilter="bosses"]').click();}
+  await page.locator("#"+back).click();assert(await page.locator("#menuScreen").isVisible());
+ }
+ await page.locator("#newGameBtn").click();
+ assert.equal(await page.locator("#menuScreen").isVisible(),false);
+ await page.locator("#nameInput").fill("Тест");
+ await page.locator('[data-class="paladin"]').click();
+ await page.locator("#createHero").click();await page.locator("#startLocation").click();
+ assert(await page.locator("#battleScreen").isVisible());
+ const initial=await page.evaluate(()=>({hp:game.state.hp,enemyHp:game.combat.enemy.hp}));
+ await page.locator("#attackBtn").click();await page.locator("#hudMenu").click();
+ await page.waitForTimeout(800);
+ assert.equal(await page.evaluate(()=>game.state.hp),initial.hp,"Counterattack must pause");
+ await page.locator("#pauseInventory").click();await page.locator("#inventoryBack").click();
+ assert(await page.locator("#battleScreen").isVisible());
+ await page.waitForFunction(hp=>game.state.hp<hp,initial.hp);
+ await page.keyboard.press("Escape");assert(await page.locator("#pauseScreen").isVisible());
+ await page.locator("#pauseMap").click();await page.locator("#mapPlay").click();
+ assert(await page.locator("#battleScreen").isVisible());
+ await page.keyboard.press("Escape");await page.locator("#pauseShop").click();await page.locator("#shopBack").click();
+ assert(await page.locator("#battleScreen").isVisible());
+ await page.evaluate(()=>{game.state.damage=10000;game.state.coins=777;Math.random=()=>.1});
+ await page.locator("#attackBtn").click();await page.locator("#rewardScreen").waitFor({state:"visible"});
+ assert(await page.locator("#rewardScreen").isVisible());
+ assert.equal(await page.locator("#rewardContent p").textContent(),"+9","Reward must show reduced delta");
+ await page.locator("#rewardContinue").click();
+ await page.screenshot({path:"artifacts/battle-desktop.png"});
+ await page.reload();await page.waitForFunction(()=>window.game&&document.querySelector("#bootScreen").hidden);
+ assert.equal(await page.locator("#continueBtn").isDisabled(),false);
+ await page.locator("#continueBtn").click();await page.locator("#startLocation").click();
+ await page.evaluate(()=>game.combat.take(999999));await page.locator("#defeatScreen").waitFor({state:"visible"});
+ assert(await page.locator("#defeatScreen").isVisible());await page.locator("#retryBtn").click();
+ assert(await page.locator("#battleScreen").isVisible());
+ await page.keyboard.press("Escape");await page.locator("#pauseMenu").click();
+ await page.evaluate(()=>localStorage.setItem("revenge_of_the_king_save_v1",'{"class":"invalid"}'));
+ await page.reload();await page.waitForFunction(()=>window.game&&document.querySelector("#bootScreen").hidden);
+ assert.equal(await page.locator("#continueBtn").isDisabled(),true);
+ // Local resources only: abort all outside requests and restart from empty cache.
+ await page.close();
+ const offline=await browser.newContext({viewport:{width:390,height:844}});
+ const mobile=await offline.newPage();mobile.on("pageerror",e=>errors.push(e.message));
+ await mobile.route("**/*",r=>r.request().url().startsWith("http://127.0.0.1:8000")?r.continue():r.abort());
+ await mobile.goto("http://127.0.0.1:8000/");await mobile.waitForFunction(()=>window.game&&document.querySelector("#bootScreen").hidden);
+ await mobile.screenshot({path:"artifacts/menu-mobile.png"});
+ await mobile.locator("#newGameBtn").click();await mobile.locator("#nameInput").fill("Мобильный");
+ await mobile.locator('[data-class="knight"]').click();await mobile.locator("#createHero").click();await mobile.locator("#startLocation").click();
+ await mobile.locator("#attackBtn").click();await mobile.screenshot({path:"artifacts/battle-mobile.png"});
+ // Missing mandatory resource -> honest error and successful retry.
+ const broken=await browser.newPage();let fail=true;
+ await broken.route("**/js/main.js?v=4",r=>fail?r.fulfill({status:404,body:"Missing"}):r.continue());
+ await broken.goto("http://127.0.0.1:8000/");await broken.locator("#bootRetry").waitFor();
+ assert.match(await broken.locator("#bootDetails").textContent(),/js\/main.js.*404/);
+ fail=false;await broken.locator("#bootRetry").click();await broken.waitForFunction(()=>window.game&&document.querySelector("#bootScreen").hidden);
+ await broken.close();
+ const missingModel=await browser.newPage();
+ await missingModel.route("**/js/models.js",r=>r.fulfill({status:404,body:"Missing model module"}));
+ await missingModel.goto("http://127.0.0.1:8000/");await missingModel.locator("#bootRetry").waitFor();
+ assert.match(await missingModel.locator("#bootDetails").textContent(),/js\/models.js.*404/);
+ assert.equal(errors.length,0,errors.join("\n"));
+ assert.equal(requests.filter(u=>!u.startsWith("http://127.0.0.1:8000")).length,0);
+ console.log(JSON.stringify({passed:true,pageErrors:errors,externalRequests:0,checks:["desktop start","all menu buttons","create hero","attack","pause freezes damage","inventory/map/shop return","coin reward","save reload","defeat/retry","corrupt save","mobile/offline CDN","404 retry","missing model module names exact file"]},null,2));
+ await browser.close();
+})().catch(e=>{console.error(e);process.exit(1)});
