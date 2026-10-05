@@ -1,3 +1,4 @@
+import {BOSS_LEVEL} from './locations.js';
 const KEY="revenge_of_the_king_save_v1";
 const classes=new Set(["paladin","knight","mage","thief"]);
 const slots=["weapon","chest","gloves","boots"];
@@ -18,6 +19,6 @@ export function validSave(s) {
     &&Array.isArray(s.defeatedBosses)&&record(s.stats)&&["kills","foundItems"].every(k=>nonnegative(s.stats[k]));
 }
 export function saveGame(state) { try { localStorage.setItem(KEY,JSON.stringify(state)); return true; } catch(e) { console.warn("Save failed",e); return false; } }
-export function loadGame() { try { const raw=localStorage.getItem(KEY); const s=raw?JSON.parse(raw):null; return validSave(s)?s:null; } catch { return null; } }
+export function loadGame() { try { const raw=localStorage.getItem(KEY); const s=raw?JSON.parse(raw):null; if(!validSave(s))return null; s.currentLevel=Math.min(s.currentLevel,BOSS_LEVEL);return s; } catch { return null; } }
 export function deleteSave() { try { localStorage.removeItem(KEY); return true; } catch { return false; } }
 export function hasSave() { return loadGame()!==null; }

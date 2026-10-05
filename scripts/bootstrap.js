@@ -71,7 +71,10 @@
       if (location.protocol === "file:") throw new Error("Откройте игру через HTTP-сервер: python launcher.py. ES-модули не запускаются через file://.");
       const results = await Promise.allSettled([
         verify("css/style-v3.css?v=4", /text\/css/i),
-        verify("js/main.js?v=4", /(javascript|ecmascript)/i)
+        verify("js/main.js?v=4", /(javascript|ecmascript)/i),
+        verify("js/scene.js", /(javascript|ecmascript)/i),
+        verify("js/models.js", /(javascript|ecmascript)/i),
+        verify("js/item-visuals.js", /(javascript|ecmascript)/i)
       ]);
       const failures = results.filter(r => r.status === "rejected").map(r => r.reason.message);
       if (failures.length) throw new Error(failures.join("\n"));

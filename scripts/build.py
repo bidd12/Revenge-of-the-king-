@@ -11,6 +11,7 @@ args=parser.parse_args()
 files=[root/"index.html",root/"scripts/bootstrap.js"]
 if args.platform=="browser":
     files.extend(root/name for name in ("launcher.py","run.bat","README.md"))
+    files.extend(p for p in (root/"docs").glob("*.md") if p.is_file())
 for folder in ("css","js","vendor","assets"):
     files.extend(p for p in (root/folder).rglob("*") if p.is_file())
 assert all(p.exists() for p in files)

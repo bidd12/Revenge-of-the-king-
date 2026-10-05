@@ -15,4 +15,4 @@ guard2:{id:"guard2",name:"Обычный стражник",baseHp:125,baseDamage
 eliteGuard2:{id:"eliteGuard2",name:"Элитный стражник",baseHp:165,baseDamage:29,description:"Элитный защитник башни.",shape:"guard",color:0xc0a85b},
 draugr2:{id:"draugr2",name:"Драугр",baseHp:190,baseDamage:31,description:"Мертвец северной башни.",shape:"draugr",color:0x6e9192}
 };
-export function scaledEnemy(e,loc,level){const levelMult=1+(level-1)*0.055;return {...e,maxHp:Math.round(e.baseHp*loc.mult*levelMult),hp:Math.round(e.baseHp*loc.mult*levelMult),damage:Math.round(e.baseDamage*loc.mult*levelMult)}}
+export function scaledEnemy(e,loc,level){const levelMult=1+(level-1)*0.075;const hp=Math.round(e.baseHp*loc.mult*levelMult*1.25);return {...e,maxHp:hp,hp,damage:Math.round(e.baseDamage*loc.mult*levelMult*1.15)}}

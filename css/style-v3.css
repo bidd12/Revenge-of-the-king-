@@ -57,8 +57,22 @@
 #hud button{pointer-events:auto}
 button:focus-visible,input:focus-visible{outline:2px solid #e8c66d;outline-offset:4px}
 @media(max-width:600px){#battleTop{top:110px;font-size:14px}.enemyHp{top:155px}#enemyHpText{top:175px}.screen{padding:14px}.panel{max-height:95dvh}.tabs button{min-height:44px}.classGrid{grid-template-columns:repeat(2,1fr)}.classCard{padding:10px}.classCard b{font-size:17px}.classCard span{font-size:13px}}
+#enemyName{position:absolute;top:103px;left:50%;transform:translateX(-50%);max-width:90vw;padding:3px 12px;font-size:18px;color:#ffe4a0;text-align:center;text-shadow:0 2px 4px #000;background:#15120cc9;border-radius:4px}
+.enemyHp{top:139px}#enemyHpText{top:158px}
+#lootActions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}#lootActions[hidden]{display:none}#lootActions button{min-height:44px}
+@media(max-width:600px){#enemyName{top:145px;font-size:16px}.enemyHp{top:178px}#enemyHpText{top:197px}#lootActions button{flex:1 1 130px}}
 @media(max-height:600px){#menuScreen{overflow:auto;justify-content:flex-start!important}#menuScreen h1{font-size:40px;line-height:1}#menuScreen .menuButtons{margin:12px auto!important;gap:6px!important}#menuScreen .menuButtons button{padding:8px 20px}}
 #gameCanvas{z-index:0;pointer-events:none!important;}
 #ui{z-index:10;}
 #screens{position:absolute;inset:0;z-index:11;}
 #hud{z-index:20;}
+
+/* Item illustrations follow the explicitly requested material tiers. The
+   approved photo/menu redesign remains deferred. */
+.item-art{display:block;width:54px;height:54px;margin:auto}
+.rarity-epic .item-art{filter:drop-shadow(0 0 3px #ad833655)}
+.rarity-epic{border-color:#c49a35}.r-epic{color:#ffdf77}
+.rarity-legendary .item-art{filter:drop-shadow(0 0 4px #56c7b366)}
+.rarity-mythic .item-art{filter:drop-shadow(0 0 5px #e22a2266)}
+.rewardIcon .item-art{width:80px;height:80px}
+@media(prefers-reduced-motion:reduce){.damageFloat,.hitflash,.shake,.bossWarning,.bleed{animation:none}.damageFloat{transition:none}}

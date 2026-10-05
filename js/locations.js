@@ -1,3 +1,5 @@
+export const LEVELS_PER_LOCATION=10;
+export const BOSS_LEVEL=LEVELS_PER_LOCATION+1;
 export const LOCATIONS=[
 {id:1,name:"Подземелье",story:"Вы были рабом короля в шахтах. В шахте произошёл взрыв… Это ваш шанс отомстить.",description:"Серые каменные шахты: камень, факелы, руда, деревянные опоры и шахтные тоннели.",theme:"dungeon",mult:1.0,enemies:["skeleton","slime","miner"],boss:"giantSkeleton"},
 {id:2,name:"Тюрьма",story:"Вы поднимаетесь вверх по длинной лестнице. Кажется, вы ближе к королю.",description:"Каменные стены, решётки, факелы, камеры, железные двери и лестницы.",theme:"prison",mult:1.28,enemies:["bandit","goblin","guard"],boss:"warden"},
